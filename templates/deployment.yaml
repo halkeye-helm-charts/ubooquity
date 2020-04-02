@@ -70,7 +70,9 @@ spec:
               name: configmap
               subPath: preferences.json
             {{- end }}
+            {{- if .Values.extraVolumeMounts }}
             {{- toYaml .Values.extraVolumeMounts | nindent 12 }}
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -91,7 +93,9 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+        {{- if .Values.extraVolumes }}
         {{- toYaml .Values.extraVolumes | nindent 8 }}
+        {{- end }}
         - name: configmap
           configMap:
             name: {{ template "ubooquity.fullname" . }}
