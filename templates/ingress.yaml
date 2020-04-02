@@ -1,5 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "ubooquity.fullname" . -}}
+{{- $svcPort := .Values.config.libraryPortNumber -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
@@ -30,9 +31,9 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          - path: /ubooquity
+          - path: /
             backend:
               serviceName: {{ $fullName }}
-              servicePort: 2202
+              servicePort: {{ $svcPort }}
   {{- end }}
 {{- end }}

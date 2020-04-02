@@ -43,18 +43,18 @@ spec:
           ports:
             - name: http
               protocol: TCP
-              containerPort: 2202
+              containerPort: {{ .Values.config.libraryPortNumber }}
             - name: http-admin
               protocol: TCP
-              containerPort: 2203
-          #livenessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
-          #readinessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
+              containerPort: {{ .Values.config.adminPortNumber }}
+          livenessProbe:
+            httpGet:
+              path: /{{ .Values.config.reverseProxyPrefix }}
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /{{ .Values.config.reverseProxyPrefix }}
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -65,6 +65,11 @@ spec:
           volumeMounts:
             - mountPath: /config
               name: config
+            {{ if .Values.use_config }}
+            - mountPath: /config/preferences.json
+              name: configmap
+              subPath: preferences.json
+            {{- end }}
             {{- toYaml .Values.extraVolumeMounts | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -87,3 +92,6 @@ spec:
           emptyDir: {}
           {{- end }}
         {{- toYaml .Values.extraVolumes | nindent 8 }}
+        - name: configmap
+          configMap:
+            name: {{ template "ubooquity.fullname" . }}

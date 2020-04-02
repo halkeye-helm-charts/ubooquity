@@ -37,9 +37,7 @@ service:
 
 ingress:
   enabled: false
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 2000m
-    nginx.ingress.kubernetes.io/app-root: /ubooquity
+  annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
@@ -85,6 +83,54 @@ persistence:
     - ReadWriteOnce
   size: 1Gi
 
+config:
+  adminPortNumber: 2203
+  ## config.autoScanAtLaunch -- should scan volume on startup
+  autoScanAtLaunch: true
+  ## config.autoscanPeriod -- How often scans should happen in minutes
+  autoscanPeriod: 0
+  bookHeight: 230
+  bookWidth: 160
+  bookmarkUsingCookies: false
+  booksPaginationNumber: 30
+  booksPaths:
+  - pathString: /books
+    userName: []
+  bypassSingleRootFolder: false
+  comicHeight: 230
+  comicWidth: 160
+  comicsPaginationNumber: 30
+  comicsPaths:
+  - pathString: /comics
+    userName: []
+  displayTitleInsteadOfFileName: false
+  enableFolderMetadataDisplay: false
+  filesPaths:
+  - pathString: /files
+    userName: []
+  folderExclusionPattern: ''
+  isBooksProviderEnabled: true
+  isComicsProviderEnabled: true
+  isFilesProviderEnabled: true
+  isOpdsProviderEnabled: false
+  isRemoteAdminEnabled: false
+  isShrinkingCacheEnabled: false
+  isUserManagementEnabled: false
+  keepUnreachableSharedFolders: false
+  keystorePassword: ''
+  keystorePath: ''
+  libraryPortNumber: 2202
+  minimizeOnStartup: false
+  minimizeToTray: false
+  reverseProxyPrefix: ""
+  shrinkingCachePath: ''
+  shrunkPageHeight: 2500
+  shrunkPageWidth: 1536
+  theme: default
+  users: []
+
+# use_config -- if enabled it'll use the config object, otherwise it'll enable the admin port
+use_config: true
 puid: 1000
 guild: 1000
 timezone: "America/Vancouver"
@@ -99,3 +145,4 @@ extraVolumeMounts: []
   #- mountPath: /books
   #  name: books
   #  readOnly: true
+
