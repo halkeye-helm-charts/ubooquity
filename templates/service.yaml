@@ -16,5 +16,4 @@ spec:
       protocol: TCP
       name: http-admin
   selector:
-    app.kubernetes.io/name: {{ include "ubooquity.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "ubooquity.selectorLabels" . | nindent 4 }}

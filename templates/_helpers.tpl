@@ -35,13 +35,20 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "ubooquity.labels" -}}
-app.kubernetes.io/name: {{ include "ubooquity.name" . }}
 helm.sh/chart: {{ include "ubooquity.chart" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "ubooquity.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "ubooquity.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ubooquity.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
